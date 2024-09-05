@@ -12,7 +12,7 @@ import (
 
 	"github.com/hrvadl/security/internal/app/cli"
 	"github.com/hrvadl/security/internal/app/iocrypto"
-	"github.com/hrvadl/security/internal/domain/cipher/rearrangement"
+	"github.com/hrvadl/security/internal/domain/cipher/ceasar"
 )
 
 func New() *App {
@@ -36,11 +36,6 @@ func (a *App) Run() error {
 		OutPath:   filepath.Join("./static", "out.txt"),
 	}
 
-	key, err := getKey(opt.KeyPath)
-	if err != nil {
-		return err
-	}
-
 	outFile, err := recreateFile(opt.OutPath)
 	if err != nil {
 		return fmt.Errorf("failed to open the out file: %w", err)
@@ -57,9 +52,9 @@ func (a *App) Run() error {
 		logIfError(inputFile.Close())
 	}()
 
-	rearrangementCipher := rearrangement.NewCipher(key)
+	cipherSuite := ceasar.NewCipher(ceasar.NewShiftStrategy(4))
 	fw := bufio.NewWriter(outFile)
-	enc := iocrypto.NewEncrypter(inputFile, fw, rearrangementCipher)
+	enc := iocrypto.NewEncrypter(inputFile, fw, cipherSuite)
 	defer func() {
 		logIfError(fw.Flush())
 	}()
