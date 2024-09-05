@@ -1,4 +1,4 @@
-package cipher
+package rearrangement
 
 import (
 	"reflect"
@@ -45,7 +45,7 @@ func TestWithRearrangementEncrypt(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			wr := &WithRearrangement{
+			wr := &Cipher{
 				key: tt.fields.key,
 			}
 
@@ -102,7 +102,7 @@ func TestWithRearrangementDecrypt(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			wr := &WithRearrangement{
+			wr := &Cipher{
 				key: tt.fields.key,
 			}
 
