@@ -12,7 +12,7 @@ import (
 
 	"github.com/hrvadl/security/internal/app/cli"
 	"github.com/hrvadl/security/internal/app/iocrypto"
-	"github.com/hrvadl/security/internal/domain/cipher"
+	"github.com/hrvadl/security/internal/domain/cipher/rearrangement"
 )
 
 func New() *App {
@@ -57,7 +57,7 @@ func (a *App) Run() error {
 		logIfError(inputFile.Close())
 	}()
 
-	rearrangementCipher := cipher.NewWithRearranmegent(key)
+	rearrangementCipher := rearrangement.NewCipher(key)
 	fw := bufio.NewWriter(outFile)
 	enc := iocrypto.NewEncrypter(inputFile, fw, rearrangementCipher)
 	defer func() {

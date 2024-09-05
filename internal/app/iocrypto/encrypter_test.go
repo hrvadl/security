@@ -5,7 +5,7 @@ import (
 	"io"
 	"testing"
 
-	"github.com/hrvadl/security/internal/domain/cipher"
+	"github.com/hrvadl/security/internal/domain/cipher/rearrangement"
 )
 
 func TestEncrypterEncrypt(t *testing.T) {
@@ -25,7 +25,7 @@ func TestEncrypterEncrypt(t *testing.T) {
 			fields: fields{
 				in:     bytes.NewBufferString("hello world!!!!"),
 				out:    bytes.NewBufferString(""),
-				cipher: cipher.NewWithRearranmegent([]int{5, 4, 3, 2, 1}),
+				cipher: rearrangement.NewCipher([]int{5, 4, 3, 2, 1}),
 			},
 			want: []byte("ollehlrow !!!!d"),
 		},
