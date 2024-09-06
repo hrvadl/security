@@ -1,5 +1,21 @@
 package app
 
+import (
+	"errors"
+	"fmt"
+	"io"
+	"os"
+	"path/filepath"
+
+	"github.com/hrvadl/security/internal/sign/app/file"
+	"github.com/hrvadl/security/internal/sign/domain/hash"
+	"github.com/hrvadl/security/internal/sign/domain/keygen"
+	"github.com/hrvadl/security/internal/sign/domain/sign"
+	"github.com/hrvadl/security/internal/sign/domain/sign/contentsign"
+)
+
+const keySize = 4096
+
 func New() *App {
 	return &App{}
 }
@@ -13,5 +29,61 @@ func (a *App) MustRun() {
 }
 
 func (a *App) Run() error {
+	filePath := filepath.Join("./static", "in.txt")
+	// privateKeyPath = filepath.Join("./static", "private.key")
+	// publicKeyPath  = filepath.Join("./static", "public.key")
+
+	f, err := os.Open(filePath)
+	if err != nil {
+		return fmt.Errorf("failed to open file: %w", err)
+	}
+	defer func() {
+		logIfError(f.Close())
+	}()
+
+	content, err := io.ReadAll(f)
+	if err != nil {
+		return fmt.Errorf("failed to read file's content: %w", err)
+	}
+
+	hasher := hash.NewHasher()
+
+	keyGenerator := keygen.New(keySize)
+	key, err := keyGenerator.Generate()
+	if err != nil {
+		return fmt.Errorf("failed to generate key: %w", err)
+	}
+
+	signer := sign.NewSigner(key, hasher)
+	signature, err := signer.SignToBase64(content)
+	if err != nil {
+		return fmt.Errorf("failed to sign data: %w", err)
+	}
+
+	appender := contentsign.NewAppender()
+	signedContent := appender.AppendSign(content, signature)
+
+	fileReplacer := file.NewReplacer()
+	if err := fileReplacer.ReplaceOrCreate(filePath, signedContent); err != nil {
+		return fmt.Errorf("failed to replace file: %w", err)
+	}
+
+	extracter := contentsign.NewExtracter()
+	newContent, newSignature, err := extracter.ExtractSign(signedContent)
+	if err != nil {
+		return fmt.Errorf("failed to extract signature: %w", err)
+	}
+
+	if ok := signer.Verify(newSignature, newContent); !ok {
+		return errors.New("signature is unverified")
+	}
+
+	fmt.Println("Signature matched!")
 	return nil
+}
+
+func logIfError(err error) {
+	if err != nil {
+		fmt.Printf("got error: %v", err)
+	}
 }
