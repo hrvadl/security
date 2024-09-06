@@ -8,7 +8,7 @@ tasks:
   run:
     desc: "Run application"
     cmds:
-      - go run ./cmd/lab/
+      - go run ./cmd/crypto/
   test:
     cmds:
       - go test ./... -v
