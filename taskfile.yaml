@@ -5,10 +5,14 @@ tasks:
     desc: "Show available tasks"
     cmds:
       - task --list-all
-  run:
-    desc: "Run application"
+  run-cryptoalgo:
+    desc: "Run encrypt/decrypt application"
     cmds:
       - go run ./cmd/cryptoalgo/
+  run-sign:
+    desc: "Run sign application"
+    cmds:
+      - go run ./cmd/sign/
   test:
     cmds:
       - go test ./... -v
