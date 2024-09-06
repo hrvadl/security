@@ -6,6 +6,8 @@ This program can encrypt/decrypt data using one of the following methods:
 - Ceasar
 - Gamma
 
+This program can also guess key for the Cipher encoded data.
+
 ## How to run?
 
 Make sure you have [taskfile](https://taskfile.dev/) and [Go](https://go.dev/) installed. Then from the root of the repo run:
