@@ -4,6 +4,7 @@ This program can encrypt/decrypt data using one of the following methods:
 
 - Rearrangement
 - Ceasar
+- Gamma
 
 ## How to run?
 
