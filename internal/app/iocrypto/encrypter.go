@@ -6,6 +6,10 @@ import (
 	"slices"
 )
 
+func NewDecrypter(in io.Reader, out io.Writer, cipher CipherEncryptSource) *Encrypter {
+	return NewEncrypter(in, out, cipher)
+}
+
 func NewEncrypter(in io.Reader, out io.Writer, cipher CipherEncryptSource) *Encrypter {
 	return &Encrypter{
 		in:     in,
@@ -37,6 +41,7 @@ func (e *Encrypter) Encrypt() error {
 		return err
 	}
 
+	buf = bytes.Trim(buf, "\n")
 	encrypted, err := e.encryptChunks(buf)
 	if err != nil {
 		return err

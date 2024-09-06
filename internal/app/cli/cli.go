@@ -6,11 +6,6 @@ import (
 	"os"
 )
 
-const (
-	EncryptIntention = "encrypt"
-	DecryptIntention = "decrypt"
-)
-
 func NewMenu() *Menu {
 	return &Menu{
 		scanner: bufio.NewScanner(os.Stdin),
@@ -22,16 +17,18 @@ type Menu struct {
 }
 
 type Options struct {
-	InputPath string
-	OutPath   string
-	KeyPath   string
+	InputPath     string
+	EncryptedFile string
+	DecryptedFile string
+	KeyPath       string
 }
 
 func (m *Menu) GetAll() Options {
 	return Options{
-		KeyPath:   m.GetKeyFilepath(),
-		InputPath: m.GetInputFilepath(),
-		OutPath:   m.GetOutputFilepath(),
+		KeyPath:       m.GetKeyFilepath(),
+		InputPath:     m.GetInputFilepath(),
+		DecryptedFile: m.GetEncryptedFilepath(),
+		EncryptedFile: m.GetEncryptedFilepath(),
 	}
 }
 
@@ -45,13 +42,13 @@ func (m *Menu) GetKeyFilepath() string {
 	return m.getText()
 }
 
-func (m *Menu) GetOutputFilepath() string {
-	fmt.Println("Where would you like to save output data?")
+func (m *Menu) GetEncryptedFilepath() string {
+	fmt.Println("Where would you like to save encrypted data?")
 	return m.getText()
 }
 
-func (m *Menu) GetIntention() string {
-	fmt.Println("What would you like to do with it? (encrypt/decrypt)")
+func (m *Menu) GetDecryptedFilepath() string {
+	fmt.Println("Where would you like to save encrypted data?")
 	return m.getText()
 }
 
