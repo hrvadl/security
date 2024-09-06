@@ -17,10 +17,11 @@ type Menu struct {
 }
 
 type Options struct {
-	InputPath     string
-	EncryptedFile string
-	DecryptedFile string
-	KeyPath       string
+	InputPath      string
+	EncryptedFile  string
+	DecryptedFile  string
+	KeyPath        string
+	GuessedKeyPath string
 }
 
 func (m *Menu) GetAll() Options {
