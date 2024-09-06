@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/hrvadl/security/internal/app/iocrypto"
-	"github.com/hrvadl/security/internal/domain/cipher/gamma"
+	"github.com/hrvadl/security/internal/cryptoalgo/app/iocrypto"
+	"github.com/hrvadl/security/internal/cryptoalgo/domain/cipher/gamma"
 )
 
 func NewEncrypterDecrypter(

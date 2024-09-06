@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/hrvadl/security/internal/app/iocrypto"
-	"github.com/hrvadl/security/internal/domain/analysis"
+	"github.com/hrvadl/security/internal/cryptoalgo/app/iocrypto"
+	"github.com/hrvadl/security/internal/cryptoalgo/domain/analysis"
 )
 
 func NewKeyDecryptor(enc string, out string, input string) *KeyDecryptor {

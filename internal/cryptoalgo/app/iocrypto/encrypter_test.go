@@ -5,7 +5,7 @@ import (
 	"io"
 	"testing"
 
-	"github.com/hrvadl/security/internal/domain/cipher/rearrangement"
+	"github.com/hrvadl/security/internal/cryptoalgo/domain/cipher/rearrangement"
 )
 
 func TestEncrypterEncrypt(t *testing.T) {

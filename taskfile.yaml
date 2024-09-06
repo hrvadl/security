@@ -8,7 +8,7 @@ tasks:
   run:
     desc: "Run application"
     cmds:
-      - go run ./cmd/crypto/
+      - go run ./cmd/cryptoalgo/
   test:
     cmds:
       - go test ./... -v

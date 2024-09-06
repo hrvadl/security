@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/hrvadl/security/internal/app"
+	"github.com/hrvadl/security/internal/cryptoalgo/app"
 )
 
 func main() {

@@ -3,8 +3,8 @@ package app
 import (
 	"path/filepath"
 
-	"github.com/hrvadl/security/internal/app/cli"
-	"github.com/hrvadl/security/internal/app/filecrypto"
+	"github.com/hrvadl/security/internal/cryptoalgo/app/cli"
+	"github.com/hrvadl/security/internal/cryptoalgo/app/filecrypto"
 )
 
 func New() *App {
