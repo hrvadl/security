@@ -10,8 +10,14 @@ func NewReplacer() *Replacer {
 	return &Replacer{}
 }
 
+// Replacer is small helper structure
+// which can be handy in case when you
+// want to (re) create file with the given
+// content.
 type Replacer struct{}
 
+// ReplaceOrCreate function firstly tries to remove existing file.
+// Then it will create brand new one with the given content.
 func (r *Replacer) ReplaceOrCreate(path string, content []byte) error {
 	_ = os.Remove(path)
 	return r.create(path, content)

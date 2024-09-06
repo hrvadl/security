@@ -1,31 +1,38 @@
 package ceasar
 
-func NewShiftStrategy(shift int) *shiftStrategy {
+func newShiftStrategy(shift int) *shiftStrategy {
 	return &shiftStrategy{
 		shift: shift,
 	}
 }
 
-type Shifter interface {
-	Forward(target rune) rune
-	Backward(target rune) rune
-}
-
+// shiftStrategy struct is responsible for determining
+// whether given char is uppercase or lowercase.
+// Then it will create cyclicShifter with the predefined limits
+// and shift value.
 type shiftStrategy struct {
-	shifter Shifter
+	shifter *cyclicShifter
 	shift   int
 }
 
+// Forward function shifts value in forward direction.
+// Under the hood it sets active strategy for the
+// given rune and delegates actual work for the strategy.
 func (s *shiftStrategy) Forward(r rune) rune {
 	s.setStrategyBasedOnRune(r)
 	return s.shifter.Forward(r)
 }
 
+// Backward function shifts value in backward direction.
+// Under the hood it sets active strategy for the
+// given rune and delegates actual work for the strategy.
 func (s *shiftStrategy) Backward(r rune) rune {
 	s.setStrategyBasedOnRune(r)
 	return s.shifter.Backward(r)
 }
 
+// TODO: optimize this. cuz it's allocating new obj on each
+// function call.
 func (s *shiftStrategy) setStrategyBasedOnRune(r rune) {
 	switch {
 	case s.isUpperCaseLatin(r):

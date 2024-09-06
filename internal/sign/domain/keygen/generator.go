@@ -12,15 +12,17 @@ func New(keySize int) *Generator {
 	}
 }
 
+// Generator is a small facade which generates
+// and RSA private key with the given key size.
 type Generator struct {
 	keySize int
 }
 
 func (g *Generator) Generate() (*rsa.PrivateKey, error) {
-	privKey, err := rsa.GenerateKey(rand.Reader, g.keySize)
+	key, err := rsa.GenerateKey(rand.Reader, g.keySize)
 	if err != nil {
 		return nil, errors.Join(ErrFailedToGenerateKey, err)
 	}
 
-	return privKey, nil
+	return key, nil
 }

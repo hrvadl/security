@@ -8,6 +8,8 @@ func NewCeasarKeyDecryptor() *CeasarKeyDecryptor {
 	return &CeasarKeyDecryptor{}
 }
 
+// CeasarKeyDecryptor tries to guess the key
+// for a given input and encrypted text.
 type CeasarKeyDecryptor struct{}
 
 func (c *CeasarKeyDecryptor) GetKeyFor(source, encrypted []byte) (int, error) {

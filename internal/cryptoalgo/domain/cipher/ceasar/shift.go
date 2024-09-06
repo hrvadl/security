@@ -38,12 +38,24 @@ func newCyclicShifter(from, to rune, shift int) *cyclicShifter {
 	}
 }
 
+// cyclicShifter is a struct responsible for
+// shifting a value within the from lower limit
+// and to upper limit with the shift value.
+// in case new value is out of the limits then it will
+// cycle to the beginning/end. I.E:
+// - from 65
+// - to 90
+// - shift 4
+// Forward(88) -> 66
 type cyclicShifter struct {
 	from  rune
 	to    rune
 	shift int
 }
 
+// Forward function moves value forward for the target value.
+// If it's bigger than upper limit, then count starts from the
+// beginning (lower limit).
 func (cs *cyclicShifter) Forward(target rune) rune {
 	if cs.isWhitespace(target) {
 		return target
@@ -56,6 +68,9 @@ func (cs *cyclicShifter) Forward(target rune) rune {
 	return target + rune(cs.shift)
 }
 
+// Backward function moves value backward for the target value.
+// If it's lower than lower limit, then count starts from the
+// ending (upper limit).
 func (cs *cyclicShifter) Backward(target rune) rune {
 	if cs.isWhitespace(target) {
 		return target

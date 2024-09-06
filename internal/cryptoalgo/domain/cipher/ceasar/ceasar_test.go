@@ -8,7 +8,7 @@ import (
 func TestCipherEncrypt(t *testing.T) {
 	t.Parallel()
 	type fields struct {
-		shifter Shifter
+		shifter *shiftStrategy
 	}
 	type args struct {
 		msg []byte
@@ -22,7 +22,7 @@ func TestCipherEncrypt(t *testing.T) {
 		{
 			name: "Should encrypt correctly",
 			fields: fields{
-				shifter: NewShiftStrategy(4),
+				shifter: newShiftStrategy(4),
 			},
 			args: args{
 				msg: []byte("hello world"),
@@ -32,7 +32,7 @@ func TestCipherEncrypt(t *testing.T) {
 		{
 			name: "Should encrypt correctly",
 			fields: fields{
-				shifter: NewShiftStrategy(4),
+				shifter: newShiftStrategy(4),
 			},
 			args: args{
 				msg: []byte("how u doin"),
@@ -47,7 +47,7 @@ func TestCipherEncrypt(t *testing.T) {
 			c := &Cipher{
 				shifter: tt.fields.shifter,
 			}
-			if got := c.Encrypt(tt.args.msg); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := c.Encrypt(tt.args.msg); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Cipher.Encrypt() = %v, want %v", string(got), string(tt.want))
 			}
 		})
@@ -57,7 +57,7 @@ func TestCipherEncrypt(t *testing.T) {
 func TestCipherDecrypt(t *testing.T) {
 	t.Parallel()
 	type fields struct {
-		shifter Shifter
+		shifter *shiftStrategy
 	}
 	type args struct {
 		msg []byte
@@ -71,7 +71,7 @@ func TestCipherDecrypt(t *testing.T) {
 		{
 			name: "Should encrypt correctly",
 			fields: fields{
-				shifter: NewShiftStrategy(4),
+				shifter: newShiftStrategy(4),
 			},
 			args: args{
 				msg: []byte("lipps asvph"),
@@ -81,7 +81,7 @@ func TestCipherDecrypt(t *testing.T) {
 		{
 			name: "Should encrypt correctly",
 			fields: fields{
-				shifter: NewShiftStrategy(4),
+				shifter: newShiftStrategy(4),
 			},
 			args: args{
 				msg: []byte("lsa y hsmr"),
@@ -96,7 +96,7 @@ func TestCipherDecrypt(t *testing.T) {
 			c := &Cipher{
 				shifter: tt.fields.shifter,
 			}
-			if got := c.Decrypt(tt.args.msg); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := c.Decrypt(tt.args.msg); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Cipher.Decrypt() = %v, want %v", string(got), string(tt.want))
 			}
 		})
