@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/hrvadl/security/internal/app/iocrypto"
-	"github.com/hrvadl/security/internal/domain/cipher/ceasar"
+	"github.com/hrvadl/security/internal/domain/cipher/gamma"
 )
 
 func NewEncrypterDecrypter(
@@ -52,7 +52,10 @@ func (e *EncrypterDecrypter) EncryptAndDecrypt() error {
 		logIfError(inputFile.Close())
 	}()
 
-	cipherSuite := ceasar.NewCipher(ceasar.NewShiftStrategy(4))
+	cipherSuite, err := gamma.NewCipher()
+	if err != nil {
+		return fmt.Errorf("failed to initialize cipher suite: %w", err)
+	}
 
 	fw := bufio.NewWriter(encryptedFile)
 	enc := iocrypto.NewEncrypter(inputFile, fw, cipherSuite)

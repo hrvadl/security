@@ -1,19 +1,14 @@
 package gamma
 
-import (
-	"crypto/rand"
-	"fmt"
+const (
+	A  = uint32(1664525)
+	C  = uint32(1013904223)
+	m  = uint32(4294967295)
+	T0 = uint32(123456789)
 )
 
 func NewCipher() (*Cipher, error) {
-	token := make([]byte, 4)
-	if _, err := rand.Read(token); err != nil {
-		return nil, fmt.Errorf("failed to generate random key: %w", err)
-	}
-
-	return &Cipher{
-		key: token,
-	}, nil
+	return &Cipher{}, nil
 }
 
 type Cipher struct {
@@ -21,6 +16,7 @@ type Cipher struct {
 }
 
 func (c *Cipher) Encrypt(msg []byte) ([]byte, error) {
+	c.key = newKey(len(msg))
 	encrypted := make([]byte, 0, len(msg))
 	lenKey := len(c.key)
 	for i, val := range msg {
@@ -34,5 +30,15 @@ func (c *Cipher) Decrypt(msg []byte) ([]byte, error) {
 }
 
 func (c *Cipher) Chunk() int {
-	return len(c.key)
+	return int(m)
+}
+
+func newKey(length int) []byte {
+	keyStream := make([]byte, length)
+	T := T0
+	for i := 0; i < length; i++ {
+		T = (A*T + C) % m
+		keyStream[i] = byte(T)
+	}
+	return keyStream
 }

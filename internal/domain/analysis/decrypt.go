@@ -2,7 +2,6 @@ package analysis
 
 import (
 	"bytes"
-	"errors"
 )
 
 func NewCeasarKeyDecryptor() *CeasarKeyDecryptor {
@@ -28,7 +27,7 @@ func (c *CeasarKeyDecryptor) getDifferenceBetweenSingleMatchedPair(
 		}
 	}
 
-	return 0, errors.New("can not detect key")
+	return 0, ErrCannotDetectKey
 }
 
 func (c *CeasarKeyDecryptor) getCharsWithMatchedFrequency(

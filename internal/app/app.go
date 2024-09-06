@@ -41,11 +41,15 @@ func (a *App) Run() error {
 		return err
 	}
 
-	keyGuesser := filecrypto.NewKeyDecryptor(
-		opt.EncryptedFile,
-		opt.GuessedKeyPath,
-		opt.InputPath,
-	)
+	return nil
 
-	return keyGuesser.GetKey()
+	// keyGuesser := filecrypto.NewKeyDecryptor(
+	//
+	//	opt.EncryptedFile,
+	//	opt.GuessedKeyPath,
+	//	opt.InputPath,
+	//
+	// )
+	//
+	// return keyGuesser.GetKey()
 }
