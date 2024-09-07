@@ -27,11 +27,11 @@ func (a *App) MustRun() {
 func (a *App) Run() error {
 	basePath := filepath.Join("./static", "cipher", a.cryptoType)
 	opt := cli.Options{
-		InputPath: filepath.Join(basePath, "in.txt"),
-		KeyPath:   filepath.Join(basePath, "key.txt"),
-		// GuessedKeyPath: filepath.Join(basePath, "guessed.key.txt"),
-		DecryptedFile: filepath.Join(basePath, "decrypted.cipher.txt"),
-		EncryptedFile: filepath.Join(basePath, "encrypted.cipher.txt"),
+		InputPath:      filepath.Join(basePath, "in.txt"),
+		KeyPath:        filepath.Join(basePath, "key.txt"),
+		GuessedKeyPath: filepath.Join(basePath, "guessed.key.txt"),
+		DecryptedFile:  filepath.Join(basePath, "decrypted.cipher.txt"),
+		EncryptedFile:  filepath.Join(basePath, "encrypted.cipher.txt"),
 	}
 
 	fileEncDec := filecrypto.NewEncrypterDecrypter(
@@ -46,15 +46,15 @@ func (a *App) Run() error {
 		return fmt.Errorf("failed to enc/dec: %w", err)
 	}
 
-	// keyGuesser := filecrypto.NewKeyDecryptor(
-	//
-	//	opt.EncryptedFile,
-	//	opt.GuessedKeyPath,
-	//	opt.InputPath,
-	//
-	// )
-	//
-	// return keyGuesser.GetKey()
+	keyGuesser := filecrypto.NewKeyDecryptor(
+		opt.EncryptedFile,
+		opt.GuessedKeyPath,
+		opt.InputPath,
+	)
+
+	if a.cryptoType == filecrypto.Caesar {
+		return keyGuesser.GetKey()
+	}
 
 	return nil
 }

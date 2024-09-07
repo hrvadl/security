@@ -2,3 +2,4 @@
 encrypted.*.txt
 decrypted.*.txt
 *.signed
+guessed.key.txt

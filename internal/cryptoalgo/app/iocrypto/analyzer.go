@@ -1,7 +1,6 @@
 package iocrypto
 
 import (
-	"errors"
 	"fmt"
 	"io"
 	"strconv"
@@ -48,7 +47,7 @@ func (c *KeyDecryptor) GetKey() error {
 
 	key, err := c.decryptor.GetKeyFor(decryptedBuf, encryptedBuf)
 	if err != nil {
-		return errors.New("failed to get key")
+		return fmt.Errorf("failed to get key: %w", err)
 	}
 
 	if _, err := c.out.Write([]byte(strconv.Itoa(key))); err != nil {
