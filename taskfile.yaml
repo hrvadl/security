@@ -12,11 +12,11 @@ tasks:
   encrypt-gamma:
     desc: "Run encrypt/decrypt application with Gamma cipher"
     cmds:
-      - go run ./cmd/cryptoalgo/ -cipher gamma
+      - go run ./cmd/cryptoalgo/ -cipher=gamma
   encrypt-rearrangement:
     desc: "Run encrypt/decrypt application with rearrangement cipher"
     cmds:
-      - go run ./cmd/cryptoalgo/ -cipher rearrangement
+      - go run ./cmd/cryptoalgo/ -cipher=rearrangement
   sign:
     desc: "Run sign application"
     cmds:
