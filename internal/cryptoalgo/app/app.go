@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"path/filepath"
 
 	"github.com/hrvadl/security/internal/cryptoalgo/app/cli"
@@ -20,14 +21,13 @@ func (a *App) MustRun() {
 }
 
 func (a *App) Run() error {
-	// menu := cli.NewMenu()
-	// opt := menu.GetAll()
+	basePath := filepath.Join("./static", "cipher")
 	opt := cli.Options{
-		InputPath: filepath.Join("./static", "in.txt"),
-		KeyPath:   filepath.Join("./static", "key.txt"),
-		// GuessedKeyPath: filepath.Join("./static", "guessed_key.txt"),
-		DecryptedFile: filepath.Join("./static", "decrypt.txt"),
-		EncryptedFile: filepath.Join("./static", "encrypt.txt"),
+		InputPath: filepath.Join(basePath, "in.txt"),
+		KeyPath:   filepath.Join(basePath, "key.txt"),
+		// GuessedKeyPath: filepath.Join(basePath, "guessed.key.txt"),
+		DecryptedFile: filepath.Join(basePath, "decrypted.cipher.txt"),
+		EncryptedFile: filepath.Join(basePath, "encrypted.cipher.txt"),
 	}
 
 	fileEncDec := filecrypto.NewEncrypterDecrypter(
@@ -37,7 +37,9 @@ func (a *App) Run() error {
 		opt.DecryptedFile,
 	)
 
-	return fileEncDec.EncryptAndDecrypt()
+	if err := fileEncDec.EncryptAndDecrypt(); err != nil {
+		return fmt.Errorf("failed to enc/dec: %w", err)
+	}
 
 	// keyGuesser := filecrypto.NewKeyDecryptor(
 	//
@@ -48,4 +50,6 @@ func (a *App) Run() error {
 	// )
 	//
 	// return keyGuesser.GetKey()
+
+	return nil
 }
