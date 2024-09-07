@@ -17,6 +17,9 @@ func NewKeyDecryptor(enc string, out string, input string) *KeyDecryptor {
 	}
 }
 
+// KeyDecryptor struct is responsible for reading content
+// from the given file then delegating the key guessing
+// work to the underlying key decrypting algorithm.
 type KeyDecryptor struct {
 	encryptPath string
 	outPath     string

@@ -12,10 +12,16 @@ func NewMenu() *Menu {
 	}
 }
 
+// Menu is a structure, responsible for filling
+// Options struct with the values provided by user
+// from the CLI.
 type Menu struct {
 	scanner *bufio.Scanner
 }
 
+// Options is a main configuration options availablel
+// for the user. All paths should be a valid paths
+// provided in the UNIX compatible format.
 type Options struct {
 	InputPath      string
 	EncryptedFile  string

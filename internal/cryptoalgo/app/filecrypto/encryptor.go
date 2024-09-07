@@ -20,6 +20,9 @@ func NewEncrypterDecrypter(
 	}
 }
 
+// Encrypter struct is responsible for reading content
+// from the given file and then delegating all the
+// work to the iocrypto encrypter.
 type EncrypterDecrypter struct {
 	inputPath   string
 	keyPath     string

@@ -9,9 +9,13 @@ func NewCeasarKeyDecryptor() *CeasarKeyDecryptor {
 }
 
 // CeasarKeyDecryptor tries to guess the key
-// for a given input and encrypted text.
+// for a given input and encrypted with Ceasar
+// method text.
 type CeasarKeyDecryptor struct{}
 
+// GetKeyFor method tries to guess key for the decrypted/encrypted text pair.
+// Under the hood it will count chars for decrypted/encrypted text and then
+// it will try to calculate the ceasar shift if possible.
 func (c *CeasarKeyDecryptor) GetKeyFor(source, encrypted []byte) (int, error) {
 	sourceCharFreq := c.getRunesFrequency(bytes.Runes(source))
 	encryptedCharFreq := c.getRunesFrequency(bytes.Runes(encrypted))

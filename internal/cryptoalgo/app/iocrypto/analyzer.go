@@ -25,6 +25,9 @@ type KeyDecryptorSource interface {
 	GetKeyFor(source, encrypted []byte) (int, error)
 }
 
+// KeyDecryptor struct is responsible for reading content
+// from the given io.Reader then delegating the key guessing
+// work to the underlying key decrypting algorithm.
 type KeyDecryptor struct {
 	decryptor KeyDecryptorSource
 	encrypted io.Reader
