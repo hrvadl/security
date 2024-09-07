@@ -4,25 +4,25 @@ import (
 	"bytes"
 )
 
-func NewCeasarKeyDecryptor() *CeasarKeyDecryptor {
-	return &CeasarKeyDecryptor{}
+func NewCaesarKeyDecryptor() *CaesarKeyDecryptor {
+	return &CaesarKeyDecryptor{}
 }
 
-// CeasarKeyDecryptor tries to guess the key
-// for a given input and encrypted with Ceasar
+// CaesarKeyDecryptor tries to guess the key
+// for a given input and encrypted with Caesar
 // method text.
-type CeasarKeyDecryptor struct{}
+type CaesarKeyDecryptor struct{}
 
 // GetKeyFor method tries to guess key for the decrypted/encrypted text pair.
 // Under the hood it will count chars for decrypted/encrypted text and then
-// it will try to calculate the ceasar shift if possible.
-func (c *CeasarKeyDecryptor) GetKeyFor(source, encrypted []byte) (int, error) {
+// it will try to calculate the caesar shift if possible.
+func (c *CaesarKeyDecryptor) GetKeyFor(source, encrypted []byte) (int, error) {
 	sourceCharFreq := c.getRunesFrequency(bytes.Runes(source))
 	encryptedCharFreq := c.getRunesFrequency(bytes.Runes(encrypted))
 	return c.getDifferenceBetweenSingleMatchedPair(sourceCharFreq, encryptedCharFreq)
 }
 
-func (c *CeasarKeyDecryptor) getDifferenceBetweenSingleMatchedPair(
+func (c *CaesarKeyDecryptor) getDifferenceBetweenSingleMatchedPair(
 	sourceCharFreq map[rune]int,
 	encryptedCharFreq map[rune]int,
 ) (int, error) {
@@ -36,7 +36,7 @@ func (c *CeasarKeyDecryptor) getDifferenceBetweenSingleMatchedPair(
 	return 0, ErrCannotDetectKey
 }
 
-func (c *CeasarKeyDecryptor) getCharsWithMatchedFrequency(
+func (c *CaesarKeyDecryptor) getCharsWithMatchedFrequency(
 	target int,
 	encryptedCharFreq map[rune]int,
 ) []rune {
@@ -49,7 +49,7 @@ func (c *CeasarKeyDecryptor) getCharsWithMatchedFrequency(
 	return matched
 }
 
-func (c *CeasarKeyDecryptor) getRunesFrequency(text []rune) map[rune]int {
+func (c *CaesarKeyDecryptor) getRunesFrequency(text []rune) map[rune]int {
 	freq := make(map[rune]int)
 	for _, char := range text {
 		freq[char]++

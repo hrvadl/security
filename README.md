@@ -5,7 +5,7 @@ This program can
 1. Encrypt/decrypt data using one of the following methods:
 
    - [Rearrangement](https://github.com/hrvadl/security/blob/master/internal/cryptoalgo/domain/cipher/rearrangement/rearrangement.go) (lab 1).
-   - [Ceasar](https://github.com/hrvadl/security/blob/master/internal/cryptoalgo/domain/cipher/ceasar/ceasar.go) (lab 2).
+   - [Caesar](https://github.com/hrvadl/security/blob/master/internal/cryptoalgo/domain/cipher/ceasar/ceasar.go) (lab 2).
    - [Gamma](https://github.com/hrvadl/security/blob/master/internal/cryptoalgo/domain/cipher/gamma/cipher.go) (lab 3).
 
 2. [Guess the key](https://github.com/hrvadl/security/blob/master/internal/cryptoalgo/domain/analysis/decrypt.go) for the Cipher encoded data (lab 4).

@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"path/filepath"
 )
 
 func NewReplacer() *Replacer {
@@ -24,7 +25,7 @@ func (r *Replacer) ReplaceOrCreate(path string, content []byte) error {
 }
 
 func (r *Replacer) create(path string, content []byte) error {
-	f, err := os.Create(path)
+	f, err := os.Create(filepath.Clean(path))
 	if err != nil {
 		return fmt.Errorf("failed to create file: %w", err)
 	}

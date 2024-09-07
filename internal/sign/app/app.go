@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log/slog"
 	"os"
 	"path/filepath"
 
@@ -38,7 +39,7 @@ func (a *App) MustRun() {
 }
 
 func (a *App) Run() error {
-	f, err := os.Open(filePath)
+	f, err := os.Open(filepath.Clean(filePath))
 	if err != nil {
 		return fmt.Errorf("failed to open file: %w", err)
 	}
@@ -69,7 +70,7 @@ func (a *App) Run() error {
 	signedContent := appender.AppendSign(content, signature)
 
 	fileReplacer := file.NewReplacer()
-	if err := fileReplacer.ReplaceOrCreate(filePath, signedContent); err != nil {
+	if err = fileReplacer.ReplaceOrCreate(filePath, signedContent); err != nil {
 		return fmt.Errorf("failed to replace file: %w", err)
 	}
 
@@ -100,12 +101,12 @@ func (a *App) Run() error {
 		return fmt.Errorf("failed to save public key: %w", err)
 	}
 
-	fmt.Println("Signature matched!")
+	slog.Info("Signature matched!")
 	return nil
 }
 
 func logIfError(err error) {
 	if err != nil {
-		fmt.Printf("got error: %v", err)
+		slog.Error("got error", slog.Any("err", err))
 	}
 }

@@ -2,7 +2,7 @@ package cli
 
 import (
 	"bufio"
-	"fmt"
+	"log/slog"
 	"os"
 )
 
@@ -40,22 +40,22 @@ func (m *Menu) GetAll() Options {
 }
 
 func (m *Menu) GetInputFilepath() string {
-	fmt.Println("Where's your input file located?")
+	slog.Info("Where's your input file located?")
 	return m.getText()
 }
 
 func (m *Menu) GetKeyFilepath() string {
-	fmt.Println("Where's your key file located?")
+	slog.Info("Where's your key file located?")
 	return m.getText()
 }
 
 func (m *Menu) GetEncryptedFilepath() string {
-	fmt.Println("Where would you like to save encrypted data?")
+	slog.Info("Where would you like to save encrypted data?")
 	return m.getText()
 }
 
 func (m *Menu) GetDecryptedFilepath() string {
-	fmt.Println("Where would you like to save encrypted data?")
+	slog.Info("Where would you like to save encrypted data?")
 	return m.getText()
 }
 

@@ -3,18 +3,23 @@ package app
 import (
 	"fmt"
 	"io"
+	"log/slog"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
 
-func getKey(key string) ([]int, error) {
-	keyFile, err := os.Open(key)
+func getKey(keypath string) ([]int, error) {
+	keyFile, err := os.Open(filepath.Clean(keypath))
 	if err != nil {
 		return nil, fmt.Errorf("failed to open the key file: %w", err)
 	}
-
-	defer keyFile.Close()
+	defer func() {
+		if err = keyFile.Close(); err != nil {
+			slog.Error("Got error", slog.Any("err", err))
+		}
+	}()
 
 	content, err := io.ReadAll(keyFile)
 	if err != nil {

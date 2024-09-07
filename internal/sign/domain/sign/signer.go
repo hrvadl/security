@@ -60,7 +60,7 @@ func (s *Signer) Verify(encodedSignature []byte, data []byte) bool {
 	return err == nil
 }
 
-// sign funciton is responsible for generating a
+// sign function is responsible for generating a
 // hash for the data and then signing that hash.
 func (s *Signer) sign(data []byte) ([]byte, error) {
 	hashed := s.hasher.Hash(data)

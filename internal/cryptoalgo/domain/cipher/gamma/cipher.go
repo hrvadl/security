@@ -47,10 +47,10 @@ func (c *Cipher) Chunk() int {
 
 func newKey(length int) []byte {
 	keyStream := make([]byte, length)
-	T := T0
-	for i := 0; i < length; i++ {
-		T = (A*T + C) % m
-		keyStream[i] = byte(T)
+	t := T0
+	for i := range length {
+		t = (A*t + C) % m
+		keyStream[i] = byte(t)
 	}
 	return keyStream
 }

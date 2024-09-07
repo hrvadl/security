@@ -37,21 +37,21 @@ func (c *Cipher) Encrypt(msg []byte) ([]byte, error) {
 // Decrypt method decrypts message reordering it's content
 // by a given key. It will return an error only, if length
 // of the message doesn't match length of the key.
-func (wr *Cipher) Decrypt(msg []byte) ([]byte, error) {
-	return wr.Encrypt(msg)
+func (c *Cipher) Decrypt(msg []byte) ([]byte, error) {
+	return c.Encrypt(msg)
 }
 
 // Chunk return the length of the chunk of text
-// it's capable to proccess. Chunk is equal to the
+// it's capable to process. Chunk is equal to the
 // length of the key.
 func (c *Cipher) Chunk() int {
 	return len(c.key)
 }
 
-func (wr *Cipher) rearrange(msg []rune) []rune {
+func (c *Cipher) rearrange(msg []rune) []rune {
 	encryptedMsg := make([]rune, len(msg))
 	for i, character := range msg {
-		rearrangedIndex := wr.key[i] - keyCorrelation
+		rearrangedIndex := c.key[i] - keyCorrelation
 		encryptedMsg[rearrangedIndex] = character
 	}
 	return encryptedMsg

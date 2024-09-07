@@ -2,6 +2,8 @@ package contentsign
 
 import "bytes"
 
+const signedDocParts = 2
+
 func NewExtracter() *Extracter {
 	return &Extracter{}
 }
@@ -17,7 +19,7 @@ type Extracter struct{}
 // header and returns data with signature and error (if any).
 func (e *Extracter) ExtractSign(data []byte) ([]byte, []byte, error) {
 	splits := bytes.Split(data, []byte(header))
-	if len(splits) < 2 {
+	if len(splits) < signedDocParts {
 		return nil, nil, ErrNotFound
 	}
 

@@ -1,6 +1,8 @@
-package ceasar
+package caesar
 
 import "bytes"
+
+const defaultChunkSize = 10
 
 func NewCipher(shift int) *Cipher {
 	return &Cipher{
@@ -30,7 +32,7 @@ func (c *Cipher) Encrypt(msg []byte) ([]byte, error) {
 	return []byte(string(encrypted)), nil
 }
 
-// Encrypt method will decrypt data by shifting
+// Decrypt method will decrypt data by shifting
 // unicode code point backward for each char with a given
 // value. Note: it will shift values cyclically, meaning
 // that if shifted value lower than the min allowed code point
@@ -46,5 +48,5 @@ func (c *Cipher) Decrypt(msg []byte) ([]byte, error) {
 }
 
 func (c *Cipher) Chunk() int {
-	return 10
+	return defaultChunkSize
 }

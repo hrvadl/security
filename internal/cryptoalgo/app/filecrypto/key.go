@@ -52,7 +52,7 @@ func (d *KeyDecryptor) GetKey() error {
 	}()
 
 	fw := bufio.NewWriter(outFileFile)
-	ceasarKeyDec := analysis.NewCeasarKeyDecryptor()
+	ceasarKeyDec := analysis.NewCaesarKeyDecryptor()
 	dec := iocrypto.NewKeyDecryptor(ceasarKeyDec, encryptedFile, inputFile, fw)
 	if err := dec.GetKey(); err != nil {
 		return fmt.Errorf("failed to decrypt: %w", err)

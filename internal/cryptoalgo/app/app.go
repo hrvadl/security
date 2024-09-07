@@ -23,11 +23,11 @@ func (a *App) Run() error {
 	// menu := cli.NewMenu()
 	// opt := menu.GetAll()
 	opt := cli.Options{
-		InputPath:      filepath.Join("./static", "in.txt"),
-		KeyPath:        filepath.Join("./static", "key.txt"),
-		GuessedKeyPath: filepath.Join("./static", "guessed_key.txt"),
-		DecryptedFile:  filepath.Join("./static", "decrypt.txt"),
-		EncryptedFile:  filepath.Join("./static", "encrypt.txt"),
+		InputPath: filepath.Join("./static", "in.txt"),
+		KeyPath:   filepath.Join("./static", "key.txt"),
+		// GuessedKeyPath: filepath.Join("./static", "guessed_key.txt"),
+		DecryptedFile: filepath.Join("./static", "decrypt.txt"),
+		EncryptedFile: filepath.Join("./static", "encrypt.txt"),
 	}
 
 	fileEncDec := filecrypto.NewEncrypterDecrypter(
@@ -37,11 +37,7 @@ func (a *App) Run() error {
 		opt.DecryptedFile,
 	)
 
-	if err := fileEncDec.EncryptAndDecrypt(); err != nil {
-		return err
-	}
-
-	return nil
+	return fileEncDec.EncryptAndDecrypt()
 
 	// keyGuesser := filecrypto.NewKeyDecryptor(
 	//

@@ -1,4 +1,4 @@
-package ceasar
+package caesar
 
 func newShiftStrategy(shift int) *shiftStrategy {
 	return &shiftStrategy{

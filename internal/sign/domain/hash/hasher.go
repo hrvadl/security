@@ -13,7 +13,6 @@ func NewHasher() *Hasher {
 type Hasher struct{}
 
 func (h *Hasher) Hash(data []byte) []byte {
-	hash := sha256.New()
-	hash.Write(data)
-	return hash.Sum(nil)
+	hash := sha256.Sum256(data)
+	return hash[:]
 }

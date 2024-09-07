@@ -37,7 +37,7 @@ func TestCeasarKeyDecryptorGetKeyFor(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			c := &CeasarKeyDecryptor{}
+			c := &CaesarKeyDecryptor{}
 			got, err := c.GetKeyFor(tt.args.source, tt.args.encrypted)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("CeasarKeyDecryptor.GetKeyFor() error = %v, wantErr %v", err, tt.wantErr)

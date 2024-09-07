@@ -3,7 +3,9 @@ package filecrypto
 import (
 	"bufio"
 	"fmt"
+	"log/slog"
 	"os"
+	"path/filepath"
 
 	"github.com/hrvadl/security/internal/cryptoalgo/app/iocrypto"
 	"github.com/hrvadl/security/internal/cryptoalgo/domain/cipher/gamma"
@@ -20,7 +22,7 @@ func NewEncrypterDecrypter(
 	}
 }
 
-// Encrypter struct is responsible for reading content
+// EncrypterDecrypter struct is responsible for reading content
 // from the given file and then delegating all the
 // work to the iocrypto encrypter.
 type EncrypterDecrypter struct {
@@ -63,7 +65,7 @@ func (e *EncrypterDecrypter) EncryptAndDecrypt() error {
 	fw := bufio.NewWriter(encryptedFile)
 	enc := iocrypto.NewEncrypter(inputFile, fw, cipherSuite)
 
-	if err := enc.Encrypt(); err != nil {
+	if err = enc.Encrypt(); err != nil {
 		return fmt.Errorf("failed to encrypt: %w", err)
 	}
 	logIfError(fw.Flush())
@@ -84,12 +86,13 @@ func (e *EncrypterDecrypter) EncryptAndDecrypt() error {
 }
 
 func recreateFile(path string) (*os.File, error) {
+	path = filepath.Clean(path)
 	_ = os.Remove(path)
 	return os.Create(path)
 }
 
 func logIfError(err error) {
 	if err != nil {
-		fmt.Printf("got error: %v", err)
+		slog.Error("got error", slog.Any("err", err))
 	}
 }
