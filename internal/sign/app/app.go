@@ -1,6 +1,8 @@
 package app
 
 import (
+	"crypto/x509"
+	"encoding/pem"
 	"errors"
 	"fmt"
 	"io"
@@ -16,6 +18,13 @@ import (
 
 const keySize = 4096
 
+var (
+	baseDir        = "./static"
+	filePath       = filepath.Join(baseDir, "in.txt")
+	privateKeyPath = filepath.Join(baseDir, "private.key")
+	publicKeyPath  = filepath.Join(baseDir, "public.key")
+)
+
 func New() *App {
 	return &App{}
 }
@@ -29,10 +38,6 @@ func (a *App) MustRun() {
 }
 
 func (a *App) Run() error {
-	filePath := filepath.Join("./static", "in.txt")
-	// privateKeyPath = filepath.Join("./static", "private.key")
-	// publicKeyPath  = filepath.Join("./static", "public.key")
-
 	f, err := os.Open(filePath)
 	if err != nil {
 		return fmt.Errorf("failed to open file: %w", err)
@@ -76,6 +81,23 @@ func (a *App) Run() error {
 
 	if ok := signer.Verify(newSignature, newContent); !ok {
 		return errors.New("signature is unverified")
+	}
+
+	replacer := file.NewReplacer()
+	pemPrivateKey := pem.EncodeToMemory(&pem.Block{
+		Type:  "RSA PRIVATE KEY",
+		Bytes: x509.MarshalPKCS1PrivateKey(key),
+	})
+	if err := replacer.ReplaceOrCreate(privateKeyPath, pemPrivateKey); err != nil {
+		return fmt.Errorf("failed to save private key: %w", err)
+	}
+
+	pemPublicKey := pem.EncodeToMemory(&pem.Block{
+		Type:  "RSA PUBLIC KEY",
+		Bytes: x509.MarshalPKCS1PublicKey(&key.PublicKey),
+	})
+	if err := replacer.ReplaceOrCreate(publicKeyPath, pemPublicKey); err != nil {
+		return fmt.Errorf("failed to save public key: %w", err)
 	}
 
 	fmt.Println("Signature matched!")
