@@ -1,1 +1,4 @@
 *.key
+encrypted.*.txt
+decrypted.*.txt
+*.signed

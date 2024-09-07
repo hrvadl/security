@@ -20,8 +20,9 @@ import (
 const keySize = 4096
 
 var (
-	baseDir        = "./static"
+	baseDir        = filepath.Join("./static", "sign")
 	filePath       = filepath.Join(baseDir, "in.txt")
+	signedFilePath = filepath.Join(baseDir, filepath.Base(filePath)+".signed")
 	privateKeyPath = filepath.Join(baseDir, "private.key")
 	publicKeyPath  = filepath.Join(baseDir, "public.key")
 )
@@ -70,7 +71,7 @@ func (a *App) Run() error {
 	signedContent := appender.AppendSign(content, signature)
 
 	fileReplacer := file.NewReplacer()
-	if err = fileReplacer.ReplaceOrCreate(filePath, signedContent); err != nil {
+	if err = fileReplacer.ReplaceOrCreate(signedFilePath, signedContent); err != nil {
 		return fmt.Errorf("failed to replace file: %w", err)
 	}
 
@@ -84,12 +85,11 @@ func (a *App) Run() error {
 		return errors.New("signature is unverified")
 	}
 
-	replacer := file.NewReplacer()
 	pemPrivateKey := pem.EncodeToMemory(&pem.Block{
 		Type:  "RSA PRIVATE KEY",
 		Bytes: x509.MarshalPKCS1PrivateKey(key),
 	})
-	if err := replacer.ReplaceOrCreate(privateKeyPath, pemPrivateKey); err != nil {
+	if err := fileReplacer.ReplaceOrCreate(privateKeyPath, pemPrivateKey); err != nil {
 		return fmt.Errorf("failed to save private key: %w", err)
 	}
 
@@ -97,7 +97,7 @@ func (a *App) Run() error {
 		Type:  "RSA PUBLIC KEY",
 		Bytes: x509.MarshalPKCS1PublicKey(&key.PublicKey),
 	})
-	if err := replacer.ReplaceOrCreate(publicKeyPath, pemPublicKey); err != nil {
+	if err := fileReplacer.ReplaceOrCreate(publicKeyPath, pemPublicKey); err != nil {
 		return fmt.Errorf("failed to save public key: %w", err)
 	}
 

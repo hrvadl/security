@@ -5,11 +5,19 @@ tasks:
     desc: "Show available tasks"
     cmds:
       - task --list-all
-  run-cryptoalgo:
-    desc: "Run encrypt/decrypt application"
+  encrypt-caesar:
+    desc: "Run encrypt/decrypt application with Caesar cipher"
     cmds:
-      - go run ./cmd/cryptoalgo/
-  run-sign:
+      - go run ./cmd/cryptoalgo/main.go -cipher=caesar
+  encrypt-gamma:
+    desc: "Run encrypt/decrypt application with Gamma cipher"
+    cmds:
+      - go run ./cmd/cryptoalgo/ -cipher gamma
+  encrypt-rearrangement:
+    desc: "Run encrypt/decrypt application with rearrangement cipher"
+    cmds:
+      - go run ./cmd/cryptoalgo/ -cipher rearrangement
+  sign:
     desc: "Run sign application"
     cmds:
       - go run ./cmd/sign/

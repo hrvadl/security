@@ -8,11 +8,15 @@ import (
 	"github.com/hrvadl/security/internal/cryptoalgo/app/filecrypto"
 )
 
-func New() *App {
-	return &App{}
+func New(cryptoType string) *App {
+	return &App{
+		cryptoType: cryptoType,
+	}
 }
 
-type App struct{}
+type App struct {
+	cryptoType string
+}
 
 func (a *App) MustRun() {
 	if err := a.Run(); err != nil {
@@ -21,7 +25,7 @@ func (a *App) MustRun() {
 }
 
 func (a *App) Run() error {
-	basePath := filepath.Join("./static", "cipher")
+	basePath := filepath.Join("./static", "cipher", a.cryptoType)
 	opt := cli.Options{
 		InputPath: filepath.Join(basePath, "in.txt"),
 		KeyPath:   filepath.Join(basePath, "key.txt"),
@@ -35,6 +39,7 @@ func (a *App) Run() error {
 		opt.KeyPath,
 		opt.EncryptedFile,
 		opt.DecryptedFile,
+		a.cryptoType,
 	)
 
 	if err := fileEncDec.EncryptAndDecrypt(); err != nil {

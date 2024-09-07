@@ -8,17 +8,17 @@ import (
 	"path/filepath"
 
 	"github.com/hrvadl/security/internal/cryptoalgo/app/iocrypto"
-	"github.com/hrvadl/security/internal/cryptoalgo/domain/cipher/gamma"
 )
 
 func NewEncrypterDecrypter(
-	input, key, encrypt, decrypt string,
+	input, key, encrypt, decrypt, cryptoType string,
 ) *EncrypterDecrypter {
 	return &EncrypterDecrypter{
 		inputPath:   input,
 		keyPath:     key,
 		encryptPath: encrypt,
 		decryptPath: decrypt,
+		cryptoType:  cryptoType,
 	}
 }
 
@@ -30,6 +30,7 @@ type EncrypterDecrypter struct {
 	keyPath     string
 	encryptPath string
 	decryptPath string
+	cryptoType  string
 }
 
 func (e *EncrypterDecrypter) EncryptAndDecrypt() error {
@@ -57,7 +58,7 @@ func (e *EncrypterDecrypter) EncryptAndDecrypt() error {
 		logIfError(inputFile.Close())
 	}()
 
-	cipherSuite, err := gamma.NewCipher()
+	cipherSuite, err := newCipherFactory(e.keyPath).Create(e.cryptoType)
 	if err != nil {
 		return fmt.Errorf("failed to initialize cipher suite: %w", err)
 	}
