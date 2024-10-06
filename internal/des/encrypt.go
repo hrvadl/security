@@ -14,6 +14,8 @@ const (
 	allowedKeyLength  = allowedTextLength
 )
 
+const totalRounds = 16
+
 var (
 	ErrFailedToEncrypt         = errors.New("failed to encrypt")
 	ErrInvalidText             = errors.New("invalid text")
@@ -49,6 +51,16 @@ func Encrypt(text, key string) (string, error) {
 	return encryptedStr, nil
 }
 
+// @TODO: implement
 func encrypt(s [64]Bit) [64]Bit {
+	encrypted := s
+	for range totalRounds {
+		encrypted = round(encrypted)
+	}
+	return encrypted
+}
+
+// @TODO: implement
+func round(s [64]Bit) [64]Bit {
 	return s
 }
